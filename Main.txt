@@ -1,0 +1,822 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+if PlayerGui:FindFirstChild("LnxyAdmin") then
+	PlayerGui:FindFirstChild("LnxyAdmin"):Destroy()
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = ""
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = PlayerGui
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 800, 0, 650)
+MainFrame.Position = UDim2.new(0.5, -400, 0.5, -325)
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.2
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local BackgroundImage = Instance.new("ImageLabel")
+BackgroundImage.Size = UDim2.new(1, 0, 1, 0)
+BackgroundImage.Position = UDim2.new(0, 0, 0, 0)
+BackgroundImage.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BackgroundImage.Image = "rbxassetid://104888397232711"
+BackgroundImage.ScaleType = Enum.ScaleType.Crop
+BackgroundImage.Parent = MainFrame
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 16)
+MainCorner.Parent = MainFrame
+
+local MainStroke = Instance.new("UIStroke")
+MainStroke.Color = Color3.fromRGB(139, 0, 0)
+MainStroke.Thickness = 1.5
+MainStroke.Transparency = 0.3
+MainStroke.Parent = MainFrame
+
+local TitleBar = Instance.new("Frame")
+TitleBar.Size = UDim2.new(1, 0, 0, 70)
+TitleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TitleBar.BackgroundTransparency = 0.5
+TitleBar.BorderSizePixel = 0
+TitleBar.Parent = MainFrame
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 16)
+TitleCorner.Parent = TitleBar
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Size = UDim2.new(1, -120, 1, 0)
+TitleLabel.Position = UDim2.new(0, 30, 0, 0)
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Text = "HD ADMIN SYSTEM"
+TitleLabel.TextColor3 = Color3.fromRGB(200, 30, 30)
+TitleLabel.TextSize = 26
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.Parent = TitleBar
+
+local SubLabel = Instance.new("TextLabel")
+SubLabel.Size = UDim2.new(1, -120, 1, 0)
+SubLabel.Position = UDim2.new(0, 30, 0, 38)
+SubLabel.BackgroundTransparency = 1
+SubLabel.Text = ""
+SubLabel.TextColor3 = Color3.fromRGB(200, 30, 30)
+SubLabel.TextSize = 13
+SubLabel.Font = Enum.Font.Gotham
+SubLabel.TextXAlignment = Enum.TextXAlignment.Left
+SubLabel.Parent = TitleBar
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 40, 0, 40)
+CloseBtn.Position = UDim2.new(1, -55, 0.5, -20)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(200, 30, 30)
+CloseBtn.TextSize = 22
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.BorderSizePixel = 0
+CloseBtn.Parent = TitleBar
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 10)
+CloseCorner.Parent = CloseBtn
+
+CloseBtn.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+local Divider = Instance.new("Frame")
+Divider.Size = UDim2.new(1, -40, 0, 2)
+Divider.Position = UDim2.new(0, 20, 0, 70)
+Divider.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+Divider.BackgroundTransparency = 0.3
+Divider.BorderSizePixel = 0
+Divider.Parent = MainFrame
+
+local MenuBar = Instance.new("Frame")
+MenuBar.Size = UDim2.new(1, 0, 0, 55)
+MenuBar.Position = UDim2.new(0, 0, 0, 76)
+MenuBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MenuBar.BackgroundTransparency = 0.5
+MenuBar.BorderSizePixel = 0
+MenuBar.Parent = MainFrame
+
+local tabButtons = {}
+local currentTab = "commands"
+
+local tabsData = {
+	{name = "COMANDOS", id = "commands"},
+	{name = "AUTO SPAM", id = "spam"},
+	{name = "CRÉDITOS", id = "credits"},
+}
+
+local tabX = 20
+for _, tab in ipairs(tabsData) do
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(0, 160, 0, 42)
+	btn.Position = UDim2.new(0, tabX, 0.5, -21)
+	btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	btn.Text = tab.name
+	btn.TextColor3 = Color3.fromRGB(200, 30, 30)
+	btn.TextSize = 14
+	btn.Font = Enum.Font.GothamBold
+	btn.BorderSizePixel = 0
+	btn.Parent = MenuBar
+	
+	local btnCorner = Instance.new("UICorner")
+	btnCorner.CornerRadius = UDim.new(0, 8)
+	btnCorner.Parent = btn
+	
+	tabButtons[tab.id] = btn
+	tabX = tabX + 170
+end
+
+local ContentArea = Instance.new("Frame")
+ContentArea.Size = UDim2.new(1, -40, 1, -155)
+ContentArea.Position = UDim2.new(0, 20, 0, 135)
+ContentArea.BackgroundTransparency = 1
+ContentArea.Parent = MainFrame
+
+-- ============ ABA COMANDOS ============
+local CommandsPage = Instance.new("Frame")
+CommandsPage.Size = UDim2.new(1, 0, 1, 0)
+CommandsPage.BackgroundTransparency = 1
+CommandsPage.Parent = ContentArea
+
+local CmdScroll = Instance.new("ScrollingFrame")
+CmdScroll.Size = UDim2.new(1, 0, 1, -70)
+CmdScroll.Position = UDim2.new(0, 0, 0, 0)
+CmdScroll.BackgroundTransparency = 1
+CmdScroll.BorderSizePixel = 0
+CmdScroll.ScrollBarThickness = 8
+CmdScroll.ScrollBarImageColor3 = Color3.fromRGB(139, 0, 0)
+CmdScroll.ScrollBarImageTransparency = 0.4
+CmdScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+CmdScroll.Parent = CommandsPage
+
+local CmdLayout = Instance.new("UIListLayout")
+CmdLayout.Padding = UDim.new(0, 12)
+CmdLayout.SortOrder = Enum.SortOrder.LayoutOrder
+CmdLayout.Parent = CmdScroll
+
+local BottomBar = Instance.new("Frame")
+BottomBar.Size = UDim2.new(1, 0, 0, 55)
+BottomBar.Position = UDim2.new(0, 0, 1, -55)
+BottomBar.BackgroundTransparency = 1
+BottomBar.Parent = CommandsPage
+
+local AddBtn = Instance.new("TextButton")
+AddBtn.Size = UDim2.new(0, 55, 0, 45)
+AddBtn.Position = UDim2.new(1, -65, 0.5, -22.5)
+AddBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+AddBtn.Text = "+"
+AddBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+AddBtn.TextSize = 28
+AddBtn.Font = Enum.Font.GothamBold
+AddBtn.BorderSizePixel = 0
+AddBtn.Parent = BottomBar
+
+local AddCorner = Instance.new("UICorner")
+AddCorner.CornerRadius = UDim.new(0, 10)
+AddCorner.Parent = AddBtn
+
+local ExecAllBtn = Instance.new("TextButton")
+ExecAllBtn.Size = UDim2.new(0, 180, 0, 45)
+ExecAllBtn.Position = UDim2.new(0, 0, 0.5, -22.5)
+ExecAllBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+ExecAllBtn.Text = "ACTIVE ALL PLAYERS"
+ExecAllBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+ExecAllBtn.TextSize = 13
+ExecAllBtn.Font = Enum.Font.GothamBold
+ExecAllBtn.BorderSizePixel = 0
+ExecAllBtn.Parent = BottomBar
+
+local ExecAllCorner = Instance.new("UICorner")
+ExecAllCorner.CornerRadius = UDim.new(0, 10)
+ExecAllCorner.Parent = ExecAllBtn
+
+-- ============ ABA AUTO SPAM ============
+local SpamPage = Instance.new("Frame")
+SpamPage.Size = UDim2.new(1, 0, 1, 0)
+SpamPage.BackgroundTransparency = 1
+SpamPage.Visible = false
+SpamPage.Parent = ContentArea
+
+local DelayFrame = Instance.new("Frame")
+DelayFrame.Size = UDim2.new(1, 0, 0, 75)
+DelayFrame.Position = UDim2.new(0, 0, 0, 0)
+DelayFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DelayFrame.BackgroundTransparency = 0.5
+DelayFrame.BorderSizePixel = 0
+DelayFrame.Parent = SpamPage
+
+local DelayCorner = Instance.new("UICorner")
+DelayCorner.CornerRadius = UDim.new(0, 12)
+DelayCorner.Parent = DelayFrame
+
+local DelayLabel = Instance.new("TextLabel")
+DelayLabel.Size = UDim2.new(0, 160, 1, 0)
+DelayLabel.Position = UDim2.new(0, 20, 0, 0)
+DelayLabel.BackgroundTransparency = 1
+DelayLabel.Text = "INTERVALO (SEGUNDOS):"
+DelayLabel.TextColor3 = Color3.fromRGB(200, 30, 30)
+DelayLabel.TextSize = 13
+DelayLabel.Font = Enum.Font.GothamBold
+DelayLabel.TextXAlignment = Enum.TextXAlignment.Left
+DelayLabel.Parent = DelayFrame
+
+local DelayBox = Instance.new("TextBox")
+DelayBox.Size = UDim2.new(0, 100, 0, 42)
+DelayBox.Position = UDim2.new(0, 180, 0.5, -21)
+DelayBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DelayBox.Text = "0.5"
+DelayBox.TextColor3 = Color3.fromRGB(200, 30, 30)
+DelayBox.TextSize = 16
+DelayBox.Font = Enum.Font.GothamBold
+DelayBox.BorderSizePixel = 0
+DelayBox.Parent = DelayFrame
+
+local DelayBoxCorner = Instance.new("UICorner")
+DelayBoxCorner.CornerRadius = UDim.new(0, 8)
+DelayBoxCorner.Parent = DelayBox
+
+local SpamScroll = Instance.new("ScrollingFrame")
+SpamScroll.Size = UDim2.new(1, 0, 1, -145)
+SpamScroll.Position = UDim2.new(0, 0, 0, 85)
+SpamScroll.BackgroundTransparency = 1
+SpamScroll.BorderSizePixel = 0
+SpamScroll.ScrollBarThickness = 8
+SpamScroll.ScrollBarImageColor3 = Color3.fromRGB(139, 0, 0)
+SpamScroll.ScrollBarImageTransparency = 0.4
+SpamScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+SpamScroll.Parent = SpamPage
+
+local SpamLayout = Instance.new("UIListLayout")
+SpamLayout.Padding = UDim.new(0, 12)
+SpamLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SpamLayout.Parent = SpamScroll
+
+local SpamBottomBar = Instance.new("Frame")
+SpamBottomBar.Size = UDim2.new(1, 0, 0, 55)
+SpamBottomBar.Position = UDim2.new(0, 0, 1, -55)
+SpamBottomBar.BackgroundTransparency = 1
+SpamBottomBar.Parent = SpamPage
+
+local AddSpamBtn = Instance.new("TextButton")
+AddSpamBtn.Size = UDim2.new(0, 55, 0, 45)
+AddSpamBtn.Position = UDim2.new(1, -65, 0.5, -22.5)
+AddSpamBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+AddSpamBtn.Text = "+"
+AddSpamBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+AddSpamBtn.TextSize = 28
+AddSpamBtn.Font = Enum.Font.GothamBold
+AddSpamBtn.BorderSizePixel = 0
+AddSpamBtn.Parent = SpamBottomBar
+
+local AddSpamCorner = Instance.new("UICorner")
+AddSpamCorner.CornerRadius = UDim.new(0, 10)
+AddSpamCorner.Parent = AddSpamBtn
+
+local StopAllSpamBtn = Instance.new("TextButton")
+StopAllSpamBtn.Size = UDim2.new(0, 180, 0, 45)
+StopAllSpamBtn.Position = UDim2.new(0, 0, 0.5, -22.5)
+StopAllSpamBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+StopAllSpamBtn.Text = "STOP ALL"
+StopAllSpamBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+StopAllSpamBtn.TextSize = 13
+StopAllSpamBtn.Font = Enum.Font.GothamBold
+StopAllSpamBtn.BorderSizePixel = 0
+StopAllSpamBtn.Parent = SpamBottomBar
+
+local StopAllCorner = Instance.new("UICorner")
+StopAllCorner.CornerRadius = UDim.new(0, 10)
+StopAllCorner.Parent = StopAllSpamBtn
+
+-- ============ ABA CRÉDITOS ============
+local CreditsPage = Instance.new("Frame")
+CreditsPage.Size = UDim2.new(1, 0, 1, 0)
+CreditsPage.BackgroundTransparency = 1
+CreditsPage.Visible = false
+CreditsPage.Parent = ContentArea
+
+local CreditsScroll = Instance.new("ScrollingFrame")
+CreditsScroll.Size = UDim2.new(1, 0, 1, 0)
+CreditsScroll.Position = UDim2.new(0, 0, 0, 0)
+CreditsScroll.BackgroundTransparency = 1
+CreditsScroll.BorderSizePixel = 0
+CreditsScroll.ScrollBarThickness = 8
+CreditsScroll.ScrollBarImageColor3 = Color3.fromRGB(139, 0, 0)
+CreditsScroll.ScrollBarImageTransparency = 0.4
+CreditsScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+CreditsScroll.Parent = CreditsPage
+
+local CreditsLayout = Instance.new("UIListLayout")
+CreditsLayout.Padding = UDim.new(0, 16)
+CreditsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+CreditsLayout.Parent = CreditsScroll
+
+local creditsTitleFrame = Instance.new("Frame")
+creditsTitleFrame.Size = UDim2.new(1, 0, 0, 50)
+creditsTitleFrame.BackgroundTransparency = 1
+creditsTitleFrame.Parent = CreditsScroll
+
+local creditsTitle = Instance.new("TextLabel")
+creditsTitle.Size = UDim2.new(1, 0, 1, 0)
+creditsTitle.BackgroundTransparency = 1
+creditsTitle.Text = "DESENVOLVEDORES"
+creditsTitle.TextColor3 = Color3.fromRGB(200, 30, 30)
+creditsTitle.TextSize = 24
+creditsTitle.Font = Enum.Font.GothamBold
+creditsTitle.Parent = creditsTitleFrame
+
+local creditsDivider = Instance.new("Frame")
+creditsDivider.Size = UDim2.new(1, 0, 0, 2)
+creditsDivider.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+creditsDivider.BackgroundTransparency = 0.3
+creditsDivider.BorderSizePixel = 0
+creditsDivider.Parent = CreditsScroll
+
+local function createDevCard(name, description)
+	local card = Instance.new("Frame")
+	card.Size = UDim2.new(1, 0, 0, 100)
+	card.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	card.BackgroundTransparency = 0.5
+	card.BorderSizePixel = 0
+	card.Parent = CreditsScroll
+	
+	local cardCorner = Instance.new("UICorner")
+	cardCorner.CornerRadius = UDim.new(0, 12)
+	cardCorner.Parent = card
+	
+	local cardStroke = Instance.new("UIStroke")
+	cardStroke.Color = Color3.fromRGB(139, 0, 0)
+	cardStroke.Thickness = 1
+	cardStroke.Transparency = 0.2
+	cardStroke.Parent = card
+	
+	local devName = Instance.new("TextLabel")
+	devName.Size = UDim2.new(1, -100, 0, 40)
+	devName.Position = UDim2.new(0, 20, 0, 15)
+	devName.BackgroundTransparency = 1
+	devName.Text = name
+	devName.TextColor3 = Color3.fromRGB(200, 30, 30)
+	devName.TextSize = 20
+	devName.Font = Enum.Font.GothamBold
+	devName.TextXAlignment = Enum.TextXAlignment.Left
+	devName.Parent = card
+	
+	local devIcon = Instance.new("ImageLabel")
+	devIcon.Size = UDim2.new(0, 45, 0, 45)
+	devIcon.Position = UDim2.new(1, -65, 0.5, -22.5)
+	devIcon.BackgroundTransparency = 1
+	devIcon.Image = "rbxassetid://131551276820875"
+	devIcon.ScaleType = Enum.ScaleType.Fit
+	devIcon.Parent = card
+	
+	local devDesc = Instance.new("TextLabel")
+	devDesc.Size = UDim2.new(1, -20, 0, 30)
+	devDesc.Position = UDim2.new(0, 20, 0, 60)
+	devDesc.BackgroundTransparency = 1
+	devDesc.Text = description
+	devDesc.TextColor3 = Color3.fromRGB(200, 30, 30)
+	devDesc.TextSize = 13
+	devDesc.Font = Enum.Font.Gotham
+	devDesc.TextXAlignment = Enum.TextXAlignment.Left
+	devDesc.Parent = card
+end
+
+createDevCard("xuungtkk", "Desenvolvedor principal do HD Admin System")
+createDevCard("money_or_love", "Co-desenvolvedor e contribuidor")
+
+local versionFrame = Instance.new("Frame")
+versionFrame.Size = UDim2.new(1, 0, 0, 50)
+versionFrame.BackgroundTransparency = 1
+versionFrame.Parent = CreditsScroll
+
+local versionText = Instance.new("TextLabel")
+versionText.Size = UDim2.new(1, 0, 1, 0)
+versionText.BackgroundTransparency = 1
+versionText.Text = "HD ADMIN SYSTEM v1.0"
+versionText.TextColor3 = Color3.fromRGB(200, 30, 30)
+versionText.TextSize = 12
+versionText.Font = Enum.Font.Gotham
+versionText.TextXAlignment = Enum.TextXAlignment.Center
+versionText.Parent = versionFrame
+
+CreditsLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	CreditsScroll.CanvasSize = UDim2.new(0, 0, 0, CreditsLayout.AbsoluteContentSize.Y + 20)
+end)
+
+local StatusBar = Instance.new("Frame")
+StatusBar.Size = UDim2.new(1, 0, 0, 32)
+StatusBar.Position = UDim2.new(0, 0, 1, -32)
+StatusBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+StatusBar.BackgroundTransparency = 0.5
+StatusBar.BorderSizePixel = 0
+StatusBar.Parent = MainFrame
+
+local StatusText = Instance.new("TextLabel")
+StatusText.Size = UDim2.new(1, -40, 1, 0)
+StatusText.Position = UDim2.new(0, 20, 0, 0)
+StatusText.BackgroundTransparency = 1
+StatusText.Text = "● ONLINE  |  HD ADMIN SYSTEM  |  COMMANDS CONTROL ACTIVE"
+StatusText.TextColor3 = Color3.fromRGB(200, 30, 30)
+StatusText.TextSize = 11
+StatusText.Font = Enum.Font.Code
+StatusText.TextXAlignment = Enum.TextXAlignment.Left
+StatusText.Parent = StatusBar
+
+-- ============ FUNÇÕES ============
+local function sendCommand(cmd)
+	if cmd == "" then return end
+	pcall(function()
+		local remote = ReplicatedStorage:FindFirstChild("HDAdminClient")
+		if remote then
+			local signals = remote:FindFirstChild("Signals")
+			if signals then
+				local request = signals:FindFirstChild("RequestCommand")
+				if request then
+					request:InvokeServer(";" .. cmd .. " ")
+				end
+			end
+		end
+	end)
+end
+
+local function createCommandEntry(defaultText)
+	local container = Instance.new("Frame")
+	container.Size = UDim2.new(1, 0, 0, 55)
+	container.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	container.BackgroundTransparency = 0.5
+	container.BorderSizePixel = 0
+	container.Parent = CmdScroll
+	
+	local containerCorner = Instance.new("UICorner")
+	containerCorner.CornerRadius = UDim.new(0, 8)
+	containerCorner.Parent = container
+	
+	local containerStroke = Instance.new("UIStroke")
+	containerStroke.Color = Color3.fromRGB(139, 0, 0)
+	containerStroke.Thickness = 1
+	containerStroke.Transparency = 0.3
+	containerStroke.Parent = container
+	
+	local prefix = Instance.new("Frame")
+	prefix.Size = UDim2.new(0, 50, 1, 0)
+	prefix.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	prefix.BorderSizePixel = 0
+	prefix.Parent = container
+	
+	local prefixCorner = Instance.new("UICorner")
+	prefixCorner.CornerRadius = UDim.new(0, 8)
+	prefixCorner.Parent = prefix
+	
+	local prefixLabel = Instance.new("TextLabel")
+	prefixLabel.Size = UDim2.new(1, 0, 1, 0)
+	prefixLabel.BackgroundTransparency = 1
+	prefixLabel.Text = ";"
+	prefixLabel.TextColor3 = Color3.fromRGB(200, 30, 30)
+	prefixLabel.TextSize = 24
+	prefixLabel.Font = Enum.Font.GothamBold
+	prefixLabel.Parent = prefix
+	
+	local cmdBox = Instance.new("TextBox")
+	cmdBox.Size = UDim2.new(1, -120, 1, 0)
+	cmdBox.Position = UDim2.new(0, 58, 0, 0)
+	cmdBox.BackgroundTransparency = 1
+	cmdBox.PlaceholderText = "Digite o comando (ex: fly, noclip, speed 50)"
+	cmdBox.Text = defaultText or ""
+	cmdBox.TextColor3 = Color3.fromRGB(200, 30, 30)
+	cmdBox.PlaceholderColor3 = Color3.fromRGB(80, 80, 80)
+	cmdBox.TextSize = 13
+	cmdBox.Font = Enum.Font.Gotham
+	cmdBox.TextXAlignment = Enum.TextXAlignment.Left
+	cmdBox.ClearTextOnFocus = false
+	cmdBox.Parent = container
+	
+	local execBtn = Instance.new("TextButton")
+	execBtn.Size = UDim2.new(0, 50, 0, 40)
+	execBtn.Position = UDim2.new(1, -115, 0.5, -20)
+	execBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+	execBtn.Text = "▶"
+	execBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+	execBtn.TextSize = 16
+	execBtn.Font = Enum.Font.GothamBold
+	execBtn.BorderSizePixel = 0
+	execBtn.Parent = container
+	
+	local execCorner = Instance.new("UICorner")
+	execCorner.CornerRadius = UDim.new(0, 8)
+	execCorner.Parent = execBtn
+	
+	local removeBtn = Instance.new("TextButton")
+	removeBtn.Size = UDim2.new(0, 50, 0, 40)
+	removeBtn.Position = UDim2.new(1, -55, 0.5, -20)
+	removeBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	removeBtn.Text = "X"
+	removeBtn.TextColor3 = Color3.fromRGB(200, 30, 30)
+	removeBtn.TextSize = 20
+	removeBtn.Font = Enum.Font.GothamBold
+	removeBtn.BorderSizePixel = 0
+	removeBtn.Parent = container
+	
+	local removeCorner = Instance.new("UICorner")
+	removeCorner.CornerRadius = UDim.new(0, 8)
+	removeCorner.Parent = removeBtn
+	
+	execBtn.MouseButton1Click:Connect(function()
+		if cmdBox.Text ~= "" then
+			sendCommand(cmdBox.Text)
+			local orig = execBtn.BackgroundColor3
+			execBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+			task.wait(0.1)
+			execBtn.BackgroundColor3 = orig
+		end
+	end)
+	
+	removeBtn.MouseButton1Click:Connect(function()
+		container:Destroy()
+	end)
+	
+	execBtn.MouseEnter:Connect(function()
+		TweenService:Create(execBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 0, 0)}):Play()
+	end)
+	execBtn.MouseLeave:Connect(function()
+		TweenService:Create(execBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(139, 0, 0)}):Play()
+	end)
+	
+	removeBtn.MouseEnter:Connect(function()
+		TweenService:Create(removeBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+		removeBtn.TextColor3 = Color3.fromRGB(100, 0, 0)
+	end)
+	removeBtn.MouseLeave:Connect(function()
+		TweenService:Create(removeBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
+		removeBtn.TextColor3 = Color3.fromRGB(200, 30, 30)
+	end)
+	
+	return {container = container, cmdBox = cmdBox}
+end
+
+local function createSpamEntry(defaultText)
+	local container = Instance.new("Frame")
+	container.Size = UDim2.new(1, 0, 0, 55)
+	container.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	container.BackgroundTransparency = 0.5
+	container.BorderSizePixel = 0
+	container.Parent = SpamScroll
+	
+	local containerCorner = Instance.new("UICorner")
+	containerCorner.CornerRadius = UDim.new(0, 8)
+	containerCorner.Parent = container
+	
+	local containerStroke = Instance.new("UIStroke")
+	containerStroke.Color = Color3.fromRGB(139, 0, 0)
+	containerStroke.Thickness = 1
+	containerStroke.Transparency = 0.3
+	containerStroke.Parent = container
+	
+	local prefix = Instance.new("Frame")
+	prefix.Size = UDim2.new(0, 50, 1, 0)
+	prefix.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	prefix.BorderSizePixel = 0
+	prefix.Parent = container
+	
+	local prefixCorner = Instance.new("UICorner")
+	prefixCorner.CornerRadius = UDim.new(0, 8)
+	prefixCorner.Parent = prefix
+	
+	local prefixLabel = Instance.new("TextLabel")
+	prefixLabel.Size = UDim2.new(1, 0, 1, 0)
+	prefixLabel.BackgroundTransparency = 1
+	prefixLabel.Text = ";"
+	prefixLabel.TextColor3 = Color3.fromRGB(200, 30, 30)
+	prefixLabel.TextSize = 24
+	prefixLabel.Font = Enum.Font.GothamBold
+	prefixLabel.Parent = prefix
+	
+	local cmdBox = Instance.new("TextBox")
+	cmdBox.Size = UDim2.new(1, -140, 1, 0)
+	cmdBox.Position = UDim2.new(0, 58, 0, 0)
+	cmdBox.BackgroundTransparency = 1
+	cmdBox.PlaceholderText = "Digite o comando para spam"
+	cmdBox.Text = defaultText or ""
+	cmdBox.TextColor3 = Color3.fromRGB(200, 30, 30)
+	cmdBox.PlaceholderColor3 = Color3.fromRGB(80, 80, 80)
+	cmdBox.TextSize = 13
+	cmdBox.Font = Enum.Font.Gotham
+	cmdBox.TextXAlignment = Enum.TextXAlignment.Left
+	cmdBox.ClearTextOnFocus = false
+	cmdBox.Parent = container
+	
+	local spamBtn = Instance.new("ImageButton")
+	spamBtn.Size = UDim2.new(0, 55, 0, 42)
+	spamBtn.Position = UDim2.new(1, -120, 0.5, -21)
+	spamBtn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+	spamBtn.Image = "rbxassetid://15145875494"
+	spamBtn.ScaleType = Enum.ScaleType.Fit
+	spamBtn.BorderSizePixel = 0
+	spamBtn.Parent = container
+	
+	local spamCorner = Instance.new("UICorner")
+	spamCorner.CornerRadius = UDim.new(0, 8)
+	spamCorner.Parent = spamBtn
+	
+	local removeBtn = Instance.new("TextButton")
+	removeBtn.Size = UDim2.new(0, 50, 0, 40)
+	removeBtn.Position = UDim2.new(1, -55, 0.5, -20)
+	removeBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	removeBtn.Text = "X"
+	removeBtn.TextColor3 = Color3.fromRGB(200, 30, 30)
+	removeBtn.TextSize = 20
+	removeBtn.Font = Enum.Font.GothamBold
+	removeBtn.BorderSizePixel = 0
+	removeBtn.Parent = container
+	
+	local removeCorner = Instance.new("UICorner")
+	removeCorner.CornerRadius = UDim.new(0, 8)
+	removeCorner.Parent = removeBtn
+	
+	local isSpamming = false
+	local connection = nil
+	
+	local function updateButton()
+		spamBtn.Image = isSpamming and "rbxassetid://15145875494" or "rbxassetid://15145875494"
+	end
+	
+	local function startSpam()
+		if isSpamming then return end
+		local delay = tonumber(DelayBox.Text) or 0.5
+		delay = math.max(0.1, delay)
+		isSpamming = true
+		updateButton()
+		
+		connection = RunService.Heartbeat:Connect(function()
+			if isSpamming and cmdBox.Text ~= "" then
+				sendCommand(cmdBox.Text)
+				task.wait(delay)
+			end
+		end)
+	end
+	
+	local function stopSpam()
+		if not isSpamming then return end
+		isSpamming = false
+		if connection then
+			connection:Disconnect()
+			connection = nil
+		end
+		updateButton()
+	end
+	
+	spamBtn.MouseButton1Click:Connect(function()
+		if isSpamming then stopSpam() else startSpam() end
+	end)
+	
+	removeBtn.MouseButton1Click:Connect(function()
+		stopSpam()
+		container:Destroy()
+	end)
+	
+	spamBtn.MouseEnter:Connect(function()
+		TweenService:Create(spamBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(100, 0, 0)}):Play()
+	end)
+	spamBtn.MouseLeave:Connect(function()
+		TweenService:Create(spamBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(139, 0, 0)}):Play()
+	end)
+	
+	removeBtn.MouseEnter:Connect(function()
+		TweenService:Create(removeBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+		removeBtn.TextColor3 = Color3.fromRGB(100, 0, 0)
+	end)
+	removeBtn.MouseLeave:Connect(function()
+		TweenService:Create(removeBtn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(0, 0, 0)}):Play()
+		removeBtn.TextColor3 = Color3.fromRGB(200, 30, 30)
+	end)
+	
+	return {container = container, cmdBox = cmdBox, stopSpam = stopSpam}
+end
+
+-- Entradas padrão
+local commandEntries = {}
+for _, cmd in ipairs({"fly", "noclip", "speed 50"}) do
+	table.insert(commandEntries, createCommandEntry(cmd))
+end
+
+local spamEntries = {}
+for _, cmd in ipairs({"fly", "noclip"}) do
+	table.insert(spamEntries, createSpamEntry(cmd))
+end
+
+-- Botões
+AddBtn.MouseButton1Click:Connect(function()
+	table.insert(commandEntries, createCommandEntry(""))
+	task.wait(0.05)
+	CmdScroll.CanvasPosition = Vector2.new(0, CmdScroll.CanvasSize.Y.Offset)
+end)
+
+ExecAllBtn.MouseButton1Click:Connect(function()
+	for _, entry in ipairs(commandEntries) do
+		if entry.cmdBox.Text ~= "" then
+			sendCommand(entry.cmdBox.Text)
+			task.wait(0.05)
+		end
+	end
+	local orig = ExecAllBtn.BackgroundColor3
+	ExecAllBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+	task.wait(0.15)
+	ExecAllBtn.BackgroundColor3 = orig
+end)
+
+AddSpamBtn.MouseButton1Click:Connect(function()
+	table.insert(spamEntries, createSpamEntry(""))
+	task.wait(0.05)
+	SpamScroll.CanvasPosition = Vector2.new(0, SpamScroll.CanvasSize.Y.Offset)
+end)
+
+StopAllSpamBtn.MouseButton1Click:Connect(function()
+	for _, entry in ipairs(spamEntries) do
+		entry.stopSpam()
+	end
+end)
+
+-- Atualizar canvas
+CmdLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	CmdScroll.CanvasSize = UDim2.new(0, 0, 0, CmdLayout.AbsoluteContentSize.Y + 15)
+end)
+
+SpamLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	SpamScroll.CanvasSize = UDim2.new(0, 0, 0, SpamLayout.AbsoluteContentSize.Y + 15)
+end)
+
+-- Navegação entre abas
+for id, btn in pairs(tabButtons) do
+	btn.MouseButton1Click:Connect(function()
+		currentTab = id
+		for _, b in pairs(tabButtons) do
+			b.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			b.TextColor3 = Color3.fromRGB(200, 30, 30)
+		end
+		btn.BackgroundColor3 = Color3.fromRGB(139, 0, 0)
+		btn.TextColor3 = Color3.fromRGB(0, 0, 0)
+		
+		CommandsPage.Visible = (id == "commands")
+		SpamPage.Visible = (id == "spam")
+		CreditsPage.Visible = (id == "credits")
+	end)
+end
+
+tabButtons["commands"].MouseButton1Click:Fire()
+
+-- Notificação
+local notif = Instance.new("ScreenGui")
+notif.Name = "Notif"
+notif.ResetOnSpawn = false
+notif.Parent = PlayerGui
+
+local notifFrame = Instance.new("Frame")
+notifFrame.Size = UDim2.new(0, 350, 0, 48)
+notifFrame.Position = UDim2.new(1, 20, 0, 20)
+notifFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+notifFrame.BackgroundTransparency = 0.2
+notifFrame.BorderSizePixel = 0
+notifFrame.Parent = notif
+
+local notifCorner = Instance.new("UICorner")
+notifCorner.CornerRadius = UDim.new(0, 10)
+notifCorner.Parent = notifFrame
+
+local notifStroke = Instance.new("UIStroke")
+notifStroke.Color = Color3.fromRGB(139, 0, 0)
+notifStroke.Thickness = 1
+notifStroke.Transparency = 0.3
+notifStroke.Parent = notifFrame
+
+local notifText = Instance.new("TextLabel")
+notifText.Size = UDim2.new(1, -24, 1, 0)
+notifText.Position = UDim2.new(0, 12, 0, 0)
+notifText.BackgroundTransparency = 1
+notifText.Text = "BEM-VINDO AO HD ADMIN SYSTEM, " .. Player.Name
+notifText.TextColor3 = Color3.fromRGB(200, 30, 30)
+notifText.TextSize = 12
+notifText.Font = Enum.Font.Gotham
+notifText.TextXAlignment = Enum.TextXAlignment.Left
+notifText.Parent = notifFrame
+
+local tween = TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back), {Position = UDim2.new(1, -360, 0, 20)})
+tween:Play()
+task.delay(3.5, function()
+	local out = TweenService:Create(notifFrame, TweenInfo.new(0.3), {Position = UDim2.new(1, 20, 0, 20)})
+	out:Play()
+	out.Completed:Connect(function() notif:Destroy() end)
+end)
