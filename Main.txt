@@ -148,7 +148,7 @@ ContentArea.Position = UDim2.new(0, 20, 0, 135)
 ContentArea.BackgroundTransparency = 1
 ContentArea.Parent = MainFrame
 
--- ============ ABA COMANDOS ============
+
 local CommandsPage = Instance.new("Frame")
 CommandsPage.Size = UDim2.new(1, 0, 1, 0)
 CommandsPage.BackgroundTransparency = 1
@@ -206,7 +206,7 @@ local ExecAllCorner = Instance.new("UICorner")
 ExecAllCorner.CornerRadius = UDim.new(0, 10)
 ExecAllCorner.Parent = ExecAllBtn
 
--- ============ ABA AUTO SPAM ============
+
 local SpamPage = Instance.new("Frame")
 SpamPage.Size = UDim2.new(1, 0, 1, 0)
 SpamPage.BackgroundTransparency = 1
@@ -303,7 +303,7 @@ local StopAllCorner = Instance.new("UICorner")
 StopAllCorner.CornerRadius = UDim.new(0, 10)
 StopAllCorner.Parent = StopAllSpamBtn
 
--- ============ ABA CRÉDITOS ============
+
 local CreditsPage = Instance.new("Frame")
 CreditsPage.Size = UDim2.new(1, 0, 1, 0)
 CreditsPage.BackgroundTransparency = 1
@@ -437,7 +437,6 @@ StatusText.Font = Enum.Font.Code
 StatusText.TextXAlignment = Enum.TextXAlignment.Left
 StatusText.Parent = StatusBar
 
--- ============ FUNÇÕES ============
 local function sendCommand(cmd)
 	if cmd == "" then return end
 	pcall(function()
@@ -707,7 +706,7 @@ local function createSpamEntry(defaultText)
 	return {container = container, cmdBox = cmdBox, stopSpam = stopSpam}
 end
 
--- Entradas padrão
+
 local commandEntries = {}
 for _, cmd in ipairs({"fly", "noclip", "speed 50"}) do
 	table.insert(commandEntries, createCommandEntry(cmd))
@@ -718,7 +717,6 @@ for _, cmd in ipairs({"fly", "noclip"}) do
 	table.insert(spamEntries, createSpamEntry(cmd))
 end
 
--- Botões
 AddBtn.MouseButton1Click:Connect(function()
 	table.insert(commandEntries, createCommandEntry(""))
 	task.wait(0.05)
@@ -750,7 +748,7 @@ StopAllSpamBtn.MouseButton1Click:Connect(function()
 	end
 end)
 
--- Atualizar canvas
+
 CmdLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	CmdScroll.CanvasSize = UDim2.new(0, 0, 0, CmdLayout.AbsoluteContentSize.Y + 15)
 end)
@@ -759,7 +757,6 @@ SpamLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	SpamScroll.CanvasSize = UDim2.new(0, 0, 0, SpamLayout.AbsoluteContentSize.Y + 15)
 end)
 
--- Navegação entre abas
 for id, btn in pairs(tabButtons) do
 	btn.MouseButton1Click:Connect(function()
 		currentTab = id
@@ -778,7 +775,6 @@ end
 
 tabButtons["commands"].MouseButton1Click:Fire()
 
--- Notificação
 local notif = Instance.new("ScreenGui")
 notif.Name = "Notif"
 notif.ResetOnSpawn = false
